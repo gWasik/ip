@@ -1,7 +1,14 @@
+# -*- coding: utf-8 -*-
+
 # importing the module
 import ipaddress
 from ipaddress import IPv4Address, IPv4Network, summarize_address_range, collapse_addresses
 import re
+import subprocess
+
+result = subprocess.run(['dig', '+short','google.com'], stdout=subprocess.PIPE).stdout.decode('utf-8')
+
+print(result)
 
 # declaring the regex pattern for IP addresses
 regexp_comment = re.compile(r'\s*#.*?')
@@ -22,20 +29,17 @@ for line in ip_exclude:
 	if regexp_comment.search(line):
 		next
 	elif regexp_iprange.search(line):
-		print(f"exclude range:[{line}]")
 		ip_first = IPv4Address(regexp_iprange.search(line)[1])
 		ip_last = IPv4Address(regexp_iprange.search(line)[2])
 		ip_sum = summarize_address_range(ip_first, ip_last)
 		excl_ips.extend(ip_sum)
 	elif regexp_network.search(line):
-		print(f"exclude network:[{line}]")
 		ip = IPv4Network(f"{line}")
 		excl_ips.append(ip)
 	elif regexp_ipv4.search(line):
-		print(f"exclude ipv4:[{line}]")
 		ip = IPv4Network(f"{line}/32")
 		excl_ips.append(ip)
-print(f"excl_ips:{excl_ips}")
+#print(f"excl_ips:{excl_ips}")
 
 
 with open('/git/ip/russian_include.txt') as fh:
@@ -67,7 +71,6 @@ for line in ip_raw:
 for ip in excl_ips:
 	for network in range_ips:
 		if ip.subnet_of(network):
-			print(f"network-:{str(network)}")
 			final_ips = network.address_exclude(ip)
 			range_ips.extend(final_ips)
 			range_ips.remove(network)
