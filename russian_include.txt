@@ -1,4 +1,7 @@
 #place here ip to include it 
+#0.0.0.0/0
+127.0.0.1
+192.168.0.1
 1.1.1.1
 2.2.2.0/24
 google.com

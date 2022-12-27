@@ -41,15 +41,22 @@ for line in ip_exclude:
 			if regexp_ipv4.search(dig):
 				ip = IPv4Network(f"{dig}/32")
 				excl_ips.append(ip)
-print(f"excl_ips:{excl_ips}")
+#print(f"excl_ips:{excl_ips}")
 
+#remove dublicates from excluded list
+range_ips=[]
+range_ips.extend(excl_ips)
+excl_ips.clear()
+for ip in collapse_addresses(range_ips):
+	excl_ips.extend(ip.subnets(new_prefix=32))
+range_ips.clear()
+#print(f"excl_ips:{excl_ips}")
+#print(f"range_ips:{range_ips}")
 
 with open('/git/ip/russian_include.txt') as fh:
 	ip_raw = fh.readlines()
 with open('/git/ip/russian_subnets_list_raw.txt') as fh:
 	ip_raw = ip_raw + fh.readlines()
-
-range_ips=[]
 
 # extracting the IP addresses
 for line in ip_raw:
@@ -76,17 +83,32 @@ for line in ip_raw:
 				range_ips.append(ip)
 #print(f"range_ips:{range_ips}")
 
+#for info only
+for ipaddr in range_ips:
+	if ipaddr.is_unspecified:  print(f"is_unspecified:{str(ipaddr)}");
+	if ipaddr.is_reserved: print(f"is_reserved:{str(ipaddr)}");
+	if ipaddr.is_loopback: print(f"is_loopback:{str(ipaddr)}");
+	if ipaddr.is_private: print(f"is_private:{str(ipaddr)}");
+	if ipaddr.is_multicast: print(f"is_multicast:{str(ipaddr)}");
+	if ipaddr.is_link_local: print(f"is_link_local:{str(ipaddr)}");
+
 for ip in excl_ips:
+	b=0
 	for network in range_ips:
-		if ip.subnet_of(network):
+		if network.supernet_of(ip):
 			final_ips = network.address_exclude(ip)
 			range_ips.extend(final_ips)
 			range_ips.remove(network)
-			next
+			#print(f"ip:{ip} removed from:{network}")
+			b=1
+	if b==0: print(f"ip:{ip} not found to remove!!!!!")
 
 file_out = open("russian_subnets_list_processed.txt", "w+")
 
 for ipaddr in collapse_addresses(range_ips):
+	if ipaddr.is_unspecified: continue
+	if ipaddr.is_loopback: continue
+	if ipaddr.is_private: continue
 	file_out.write(f"{str(ipaddr)}\n")
 
 file_out.close()
