@@ -1,6 +1,11 @@
 #place here ip to exclude from result list
 95.216.170.178
 89.108.115.94/32
+reg.wasik.ru
 95.31.8.169
+vpn.wasik.ru
+ihor.wasik.ru
+1.0.0.1
 1.1.1.1
 2.2.2.0-2.2.2.255
+google.com

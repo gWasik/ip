@@ -6,10 +6,6 @@ from ipaddress import IPv4Address, IPv4Network, summarize_address_range, collaps
 import re
 import subprocess
 
-result = subprocess.run(['dig', '+short','google.com'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-for ip in result.split('\n'):
-    print(f"ip:{ip}")
-
 # declaring the regex pattern for IP addresses
 regexp_comment = re.compile(r'\s*#.*?')
 regexp_iprange = re.compile(r'\s*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*-\s*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
@@ -39,7 +35,13 @@ for line in ip_exclude:
 	elif regexp_ipv4.search(line):
 		ip = IPv4Network(f"{line}/32")
 		excl_ips.append(ip)
-#print(f"excl_ips:{excl_ips}")
+	else:
+		digs = subprocess.run(['dig', '+short',line], stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')
+		for dig in digs:
+			if regexp_ipv4.search(dig):
+				ip = IPv4Network(f"{dig}/32")
+				excl_ips.append(ip)
+print(f"excl_ips:{excl_ips}")
 
 
 with open('/git/ip/russian_include.txt') as fh:
@@ -66,6 +68,12 @@ for line in ip_raw:
 	elif regexp_ipv4.search(line):
 		ip = IPv4Network(f"{regexp_ipv4.search(line)[1]}/32")
 		range_ips.append(ip)
+	else:
+		digs = subprocess.run(['dig', '+short',line], stdout=subprocess.PIPE).stdout.decode('utf-8').split('\n')
+		for dig in digs:
+			if regexp_ipv4.search(dig):
+				ip = IPv4Network(f"{dig}/32")
+				range_ips.append(ip)
 #print(f"range_ips:{range_ips}")
 
 for ip in excl_ips:

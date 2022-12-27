@@ -1,3 +1,7 @@
 #place here ip to include it 
 1.1.1.1
 2.2.2.0/24
+google.com
+one.one.one.one
+alfabank.ru
+tinkoff.ru

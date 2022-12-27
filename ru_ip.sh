@@ -42,9 +42,11 @@ routes_count_current=0
 #for line in $(cat $file_processed); let "routes_count_current+=1" ; ProgressBar ${routes_count_current} ${routes_count_in_file}; done
 echo "routes ${routes_count_in_file}"
 
-echo "Remove temp files..."
-#rm $file_raw $file_for_calc
-rm $file_for_calc
+if [ -e $file_for_calc ]; then
+    echo "Remove temp files..."
+    #rm $file_raw $file_for_calc
+    rm $file_for_calc
+fi;
 
 #routes_count=`ip r | wc -l`
 #echo "Routes in routing table: $routes_count"
