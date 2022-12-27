@@ -10,6 +10,7 @@ function ProgressBar {
 }
 
 # Variables
+file_db="IP2LOCATION-LITE-DB1.CSV.ZIP"
 file_stat="russian.json"
 file_raw="russian_subnets_list_raw.txt"
 file_user="subnets_user_list.txt"
@@ -18,9 +19,13 @@ file_processed="russian_subnets_list_processed.txt"
 #gateway_for_internal_ip=`ip route | awk '/default/ {print $3; exit}'`
 #interface=`ip link show | awk -F ': ' '/state UP/ {print $2}'`
 
-wget https://download.ip2location.com/lite/IP2LOCATION-LITE-DB1.CSV.ZIP
-unzip -o IP2LOCATION-LITE-DB1.CSV.ZIP
-rm IP2LOCATION-LITE-DB1.CSV.ZIP
+#Get ip2location db
+if [ -e $file_db ]; then
+    echo "File $file_db exists."
+else
+    wget https://download.ip2location.com/lite/IP2LOCATION-LITE-DB1.CSV.ZIP
+    unzip -o IP2LOCATION-LITE-DB1.CSV.ZIP
+fi;
 
 # Get addresses RU segment
 if [ -e $file_stat ]; then
