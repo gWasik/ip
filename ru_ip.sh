@@ -18,7 +18,9 @@ file_processed="russian_subnets_list_processed.txt"
 #gateway_for_internal_ip=`ip route | awk '/default/ {print $3; exit}'`
 #interface=`ip link show | awk -F ': ' '/state UP/ {print $2}'`
 
-wget https://download.ip2location.com/lite/IP2LOCATION-LITE-DB1.BIN.ZIP
+wget https://download.ip2location.com/lite/IP2LOCATION-LITE-DB1.CSV.ZIP
+unzip -o IP2LOCATION-LITE-DB1.CSV.ZIP
+rm IP2LOCATION-LITE-DB1.CSV.ZIP
 
 # Get addresses RU segment
 if [ -e $file_stat ]; then

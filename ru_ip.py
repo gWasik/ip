@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# version: 0.1
+# version: 0.2
 
 # importing the module
 import ipaddress
 from ipaddress import IPv4Address, IPv4Network, summarize_address_range, collapse_addresses
 import re
 import subprocess
+import csv
 
 # declaring the regex pattern for IP addresses
 regexp_comment = re.compile(r'\s*#.*?')
@@ -14,12 +15,14 @@ regexp_iprange = re.compile(r'\s*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*-\s*(\d{
 regexp_network = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})')
 regexp_ipv4 = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
 
+# initializing the list object
+excl_ips=[]
+range_ips=[]
+ru_ips=[]
+
 # opening and reading the file
 with open('/git/ip/russian_exclude.txt') as fh:
 	ip_exclude = fh.readlines()
-
-# initializing the list object
-excl_ips=[]
 
 # extracting the IP addresses
 for line in ip_exclude:
@@ -46,7 +49,6 @@ for line in ip_exclude:
 #print(f"excl_ips:{excl_ips}")
 
 #remove dublicates from excluded list
-range_ips=[]
 range_ips.extend(excl_ips)
 excl_ips.clear()
 for ip in collapse_addresses(range_ips):
@@ -55,6 +57,21 @@ range_ips.clear()
 #print(f"excl_ips:{excl_ips}")
 #print(f"range_ips:{range_ips}")
 
+#get russian networks from IP2LOCATION DB
+with open('/git/ip/IP2LOCATION-LITE-DB1.CSV', newline='') as csvfile:
+	ipreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+	for row in ipreader:
+		#print(', '.join(row))
+		#print(f"{row[0]} - {row[1]} : {row[2]}")
+		if row[2]=='RU':
+			ip_first = IPv4Address(int(row[0]))
+			ip_last = IPv4Address(int(row[1]))
+			ip_sum = summarize_address_range(ip_first, ip_last)
+			ru_ips.extend(ip_sum)
+			#break
+#print(f"ru_ips:{ru_ips}")
+
+#get russian networks from RIPN stat
 with open('/git/ip/russian_include.txt') as fh:
 	ip_raw = fh.readlines()
 with open('/git/ip/russian_subnets_list_raw.txt') as fh:
@@ -85,6 +102,12 @@ for line in ip_raw:
 				range_ips.append(ip)
 #print(f"range_ips:{range_ips}")
 
+#intersect data from DBs
+ru_ips.extend(range_ips)
+range_ips.clear()
+range_ips.extend(collapse_addresses(ru_ips))
+ru_ips.clear()
+
 #for info only
 for ipaddr in range_ips:
 	if ipaddr.is_unspecified:  print(f"is_unspecified:{str(ipaddr)}");
@@ -94,6 +117,7 @@ for ipaddr in range_ips:
 	if ipaddr.is_multicast: print(f"is_multicast:{str(ipaddr)}");
 	if ipaddr.is_link_local: print(f"is_link_local:{str(ipaddr)}");
 
+#exclude all ip from networks
 for ip in excl_ips:
 	b=0
 	for network in range_ips:
@@ -105,6 +129,7 @@ for ip in excl_ips:
 			b=1
 	if b==0: print(f"ip:{ip} not found to remove!!!!!")
 
+#final step
 file_out = open("russian_subnets_list_processed.txt", "w+")
 
 for ipaddr in collapse_addresses(range_ips):
