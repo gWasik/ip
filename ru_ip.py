@@ -7,7 +7,7 @@ import re
 import subprocess
 
 result = subprocess.run(['dig', '+short','google.com'], stdout=subprocess.PIPE).stdout.decode('utf-8')
-for ip in result:
+for ip in result.split('\n'):
     print(f"ip:{ip}")
 
 # declaring the regex pattern for IP addresses
