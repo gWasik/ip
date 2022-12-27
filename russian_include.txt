@@ -7,4 +7,6 @@
 google.com
 one.one.one.one
 alfabank.ru
+rc.alfa-bank.net
+alfa-bank.net
 tinkoff.ru
