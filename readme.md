@@ -23,9 +23,17 @@ This site or product includes IP2Location LITE data available from <a href="http
 
 - https://suip.biz/ru/?act=ipcountry
 
+### ip2location
+
 - https://lite.ip2location.com/database/ip-country
 
 - https://download.ip2location.com/lite/
+
+- https://github.com/ip2location/ip2trace-python
+
+```
+ip2tracepy google.com -d /git/ip/IP2LOCATION-LITE-DB1.CSV -a
+```
 
 ### Python
 
