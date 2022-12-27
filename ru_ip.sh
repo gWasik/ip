@@ -27,7 +27,7 @@ else
   cat $file_stat | jq -r ".data.resources.ipv4[]" > $file_raw
 fi;
 
-python3 ip.py
+python3 ./ru_ip.py
 
 # Flush route table
 #echo "Flush route table (down interface $interface)..."
