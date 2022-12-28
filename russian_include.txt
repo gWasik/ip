@@ -10,3 +10,6 @@ alfabank.ru
 rc.alfa-bank.net
 alfa-bank.net
 tinkoff.ru
+ocsp.globalsign.com
+ocsp.pki.goog
+ocsp2.globalsign.com

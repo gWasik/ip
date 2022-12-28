@@ -1,4 +1,5 @@
 #!/bin/bash
+# version 0.3
 
 function ProgressBar {
   let _progress=(${1}*100/${2}*100)/100
@@ -10,6 +11,7 @@ function ProgressBar {
 }
 
 # Variables
+file_block="community.txt"
 file_db="IP2LOCATION-LITE-DB1.CSV.ZIP"
 file_stat="russian.json"
 file_raw="russian_subnets_list_raw.txt"
@@ -18,6 +20,10 @@ file_for_calc="russian_subnets_list_raw_for_calc.txt"
 file_processed="russian_subnets_list_processed.txt"
 #gateway_for_internal_ip=`ip route | awk '/default/ {print $3; exit}'`
 #interface=`ip link show | awk -F ': ' '/state UP/ {print $2}'`
+
+#Get community list
+curl -so $file_block -z $file_block https://community.antifilter.download/list/community.lst
+echo "loaded $?"
 
 #Get ip2location db
 if [ -e $file_db ]; then

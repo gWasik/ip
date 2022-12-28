@@ -1,5 +1,11 @@
 # russian ip for routing
 
+## todo
+
+- exclude banned ip
+
+- comunity list ip
+
 ## Installation
 
 ```
@@ -29,10 +35,12 @@ This site or product includes IP2Location LITE data available from <a href="http
 
 - https://download.ip2location.com/lite/
 
+- https://github.com/topics/ip2location-database
+
 - https://github.com/ip2location/ip2trace-python
 
 ```
-ip2tracepy google.com -d /git/ip/IP2LOCATION-LITE-DB1.CSV -a
+ip2tracepy google.com -d /git/ip/IP2LOCATION-LITE-DB1.BIN -a
 ```
 
 ### Python
