@@ -1,4 +1,4 @@
-#place here ip to include it 
+#place here ip to include it
 #0.0.0.0/0
 127.0.0.1
 192.168.0.1
@@ -6,23 +6,3 @@
 2.2.2.0/24
 google.com
 one.one.one.one
-alfabank.ru
-rc.alfa-bank.net
-alfa-bank.net
-tinkoff.ru
-widgets.kinopoisk.ru
-graphql.kinopoisk.ru
-mc.yandex.ru
-amc.yandex.ru
-browser-updater.yandex.net
-ads.adfox.ru
-static-mon.yandex.net
-payment-widget.kinopoisk.ru
-hd.kinopoisk.ru
-api.ott.kinopoisk.ru
-top-fwz1.mail.ru
-sso.passport.yandex.ru
-vk.com
-avatars.mds.yandex.net
-tracking.ott.yandex.net
-api.passport.yandex.ru
