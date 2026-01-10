@@ -96,7 +96,6 @@ penza.ru
 perm.ru
 pesc.ru
 pochta.ru
-psk
 psk.ru
 pskov.ru
 ptz.ru
@@ -142,8 +141,6 @@ vologda.ru
 voronezh.ru
 vrn.ru
 vyatka.ru
-xn--80acgfbsl1azdqr.xn--p1ai
-xn--90aijkdmaud0d.xn--p1ai
 yadro.ru
 yakutia.ru
 yamal.ru
@@ -160,10 +157,8 @@ rostaxi.org
 turbopages.org
 webvisor.com
 webvisor.org
-xn--d1acpjx3f.xn--p1ai
 ya.ru
 yads.tech
-yandex
 yandex-bank.net
 yandex-images.clstorage.net
 yandex-team.ru
@@ -280,7 +275,6 @@ orb.ru
 oryol.ru
 penza.ru
 perm.ru
-psk
 psk.ru
 pskov.ru
 ptz.ru
@@ -321,7 +315,6 @@ vologda.ru
 voronezh.ru
 vrn.ru
 vyatka.ru
-xn--80acgfbsl1azdqr.xn--p1ai
 yakutia.ru
 yamal.ru
 yaroslavl.ru
